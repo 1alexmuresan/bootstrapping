@@ -1,3 +1,6 @@
+"""
+Bootstrapping
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import yfinance as yf
@@ -66,12 +69,8 @@ table.set_fontsize(10)
 table.scale(1.2, 1.2)
 
 plt.title("Bootstrapped Annualized Returns (Arithmetic, Geometric, SD, and Sharpe Ratio)")
+plt.tight_layout()
 plt.show()
 
 # Print the DataFrame
 print(stats_df.round(4))
-
-
-
-
-

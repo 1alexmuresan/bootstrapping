@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb 20 12:22:04 2025
-
-@author: alex
-"""
 import numpy as np
 import matplotlib.pyplot as plt
 import yfinance as yf

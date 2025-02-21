@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Fri Feb 21 16:43:20 2025
-
-@author: alex
+Correlation Matrix of Assets
 """
 import numpy as np
 import matplotlib.pyplot as plt

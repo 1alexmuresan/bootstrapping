@@ -1,0 +1,84 @@
+"""
+Bootstrapping with Consistent Sampling
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+import yfinance as yf
+import pandas as pd
+
+tickers = ["MRNA", "BNTX", "AAPL", "MSFT", "IEF", "LQD"]
+start_date = "2015-02-01"
+end_date = "2025-02-01"
+
+results = {}
+
+for ticker in tickers:
+    df = yf.download(ticker, start=start_date, end=end_date)
+    df["Arithmetic Returns"] = df["Close"].pct_change()
+    returns = df["Arithmetic Returns"].dropna()
+    
+    # Annualized arithmetic mean
+    annualized_arithmetic_mean = np.mean(returns) * 252
+
+    # Bootstrapping parameters
+    sample_size = 252  # 1 year of trading days
+    n_bootstrap = 5000
+    bootstrap_means = []
+    bootstrap_geometric_means = []
+    bootstrap_sds = []
+    
+    for _ in range(n_bootstrap):
+        bootstrap_sample = np.random.choice(returns, size=sample_size, replace=True)
+        
+        # Arithmetic Mean
+        arithmetic_mean = np.mean(bootstrap_sample) * 252
+        bootstrap_means.append(arithmetic_mean)
+        
+        # Geometric Mean
+        geometric_mean = np.exp(np.mean(np.log(1 + bootstrap_sample))) - 1
+        annualized_geometric_mean = geometric_mean * 252
+        bootstrap_geometric_means.append(annualized_geometric_mean)
+        
+        # Standard Deviation
+        std_dev = np.std(bootstrap_sample, ddof=1) * np.sqrt(252)
+        bootstrap_sds.append(std_dev)
+
+    # Compute final estimates from bootstrapped distributions
+    mean_bootstrap_arithmetic = np.mean(bootstrap_means)
+    mean_bootstrap_geometric = np.mean(bootstrap_geometric_means)
+    mean_bootstrap_sd = np.mean(bootstrap_sds)
+
+    # Sharpe Ratio = (Arithmetic Mean - 1/2 * Variance) / Std Dev
+    sharpe_ratio = (mean_bootstrap_arithmetic - 0.5 * mean_bootstrap_sd**2) / mean_bootstrap_sd
+    
+    results[ticker] = [
+        annualized_arithmetic_mean,
+        mean_bootstrap_arithmetic,
+        mean_bootstrap_geometric,
+        mean_bootstrap_sd,
+        sharpe_ratio
+    ]
+
+# Convert results to DataFrame
+stats_df = pd.DataFrame(results, index=["Ann. AM", "Boot AM", 
+                                         "Boot GM", "Boot SD", "Sharpe Ratio"]).T
+
+# Display table
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.axis("tight")
+ax.axis("off")
+table = ax.table(cellText=stats_df.round(6).values,
+                 colLabels=stats_df.columns,
+                 rowLabels=stats_df.index,
+                 cellLoc="center", loc="center")
+
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.scale(1.2, 1.2)
+
+plt.title("Bootstrapped Annualized Returns (Arithmetic, Geometric, SD, and Sharpe Ratio)")
+plt.tight_layout()
+plt.show()
+
+# Print the DataFrame
+print(stats_df.round(4))

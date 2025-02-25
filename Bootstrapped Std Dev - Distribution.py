@@ -1,49 +1,38 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Thu Feb 20 16:50:56 2025
-
-@author: alex
+Bootstraooed
 """
 import numpy as np
 import matplotlib.pyplot as plt
 import yfinance as yf
 
-# Download Apple stock data
-ticker = "AAPL"
-df = yf.download(ticker, start="2015-02-01", end="2025-02-01")
-
-# Calculate arithmetic returns
+ticker = "AAPL" # Replace with your desired stock ticker
+df = yf.download(ticker, start="2015-02-01", end="2025-02-01") # Replace the start and end dates with your desired start/end dates
 df["Arithmetic Returns"] = df["Close"].pct_change()
-
-# Drop NaN values
 returns = df["Arithmetic Returns"].dropna()
 
-# Define bootstrapping parameters
-sample_size = 252  # 1 year of trading days
-n_bootstrap = 5000  # Number of bootstrap samples
+# Bootstrapping Parameters
+sample_size = 252  # Replace with your desired sample size (in days). Ideally, this would be your time horizon. 1 year of trading is approx. 252 days.
+n_bootstrap = 5000  # Number of bootstrap samples.
 bootstrap_sds = []
 
-# Bootstrapping process
+# Bootstrapping Process
 for _ in range(n_bootstrap):
     bootstrap_sample = np.random.choice(returns, size=sample_size, replace=True)
-    annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252)  # Annualize each SD
-    bootstrap_sds.append(annualized_sd)  # Store annualized values
-
-# Convert to numpy array for analysis
+    annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252)  # Annualizing each standard deviation
+    bootstrap_sds.append(annualized_sd)
 mean_bootstrap_sd = np.mean(bootstrap_sds)  
 
-# Plot histogram of the bootstrapped annualized standard deviations
+# Plot Histogram of Annualized Bootstrapped Standard Deviations
 plt.figure(figsize=(10, 6))
 plt.hist(bootstrap_sds, bins=50, density=True, alpha=0.6, color="blue", label="Bootstrap Annualized SD Distribution")
 
-# Compute confidence interval
+# Compute Confidence Intervals
 lower_bound = np.percentile(bootstrap_sds, 2.5)
 upper_bound = np.percentile(bootstrap_sds, 97.5)
 plt.axvline(lower_bound, color="red", linestyle="--", label="2.5% CI")
 plt.axvline(upper_bound, color="red", linestyle="--", label="97.5% CI")
 
-# Labels and title
+# Plot Titles and Labels
 plt.xlabel("Bootstrap Annualized Standard Deviation")
 plt.ylabel("Density")
 plt.title("Bootstrapped Distribution of Annualized Standard Deviations for AAPL (2015-2025)")
@@ -51,8 +40,6 @@ plt.legend()
 plt.grid()
 
 plt.show()
-
-# Output results
 print(f"Bootstrapped Mean Annualized Standard Deviation: {mean_bootstrap_sd:.4f}")
 print(f"95% Confidence Interval: ({lower_bound:.4f}, {upper_bound:.4f})")
 

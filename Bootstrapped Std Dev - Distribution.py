@@ -38,7 +38,7 @@ plt.axvline(upper_bound, color="red", linestyle="--", label="97.5% CI")
 # Plot Titles and Labels
 plt.xlabel("Bootstrap Annualized Standard Deviation")
 plt.ylabel("Density")
-plt.title("Bootstrapped Distribution of Annualized Standard Deviations for AAPL (2015-2025)")
+plt.title("Bootstrapped Distribution of Annualized Standard Deviations")
 plt.legend()
 plt.grid()
 

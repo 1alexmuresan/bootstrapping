@@ -1,18 +1,18 @@
 """
-Bootstraooed
+Bootstrapped Stanadard Deviation with Graph of Distribution and Confidence Intervals
 """
 import numpy as np
 import matplotlib.pyplot as plt
 import yfinance as yf
 
 ticker = "AAPL" # Replace with your desired stock ticker
-df = yf.download(ticker, start="2015-02-01", end="2025-02-01") # Replace the start and end dates with your desired start/end dates
+df = yf.download(ticker, start="2015-02-01", end="2025-02-01") # Replace start/end dates with your desired start/end dates
 df["Arithmetic Returns"] = df["Close"].pct_change()
 returns = df["Arithmetic Returns"].dropna()
 
 # Bootstrapping Parameters
-sample_size = 252  # Replace with your desired sample size (in days). Ideally, this would be your time horizon. 1 year of trading is approx. 252 days.
-n_bootstrap = 5000  # Number of bootstrap samples.
+sample_size = 252  # Replace with your desired sample size (in days). 1 year of trading is approx. 252 days
+n_bootstrap = 5000  # Number of bootstrap samples
 bootstrap_sds = []
 
 # Bootstrapping Process
@@ -24,7 +24,7 @@ mean_bootstrap_sd = np.mean(bootstrap_sds)
 
 # Plot Histogram of Annualized Bootstrapped Standard Deviations
 plt.figure(figsize=(10, 6))
-plt.hist(bootstrap_sds, bins=50, density=True, alpha=0.6, color="blue", label="Bootstrap Annualized SD Distribution")
+plt.hist(bootstrap_sds, bins=50, density=True, alpha=0.6, color="blue", label="Bootstrap Annualized Sttd Dev Distribution")
 
 # Compute Confidence Intervals
 lower_bound = np.percentile(bootstrap_sds, 2.5)

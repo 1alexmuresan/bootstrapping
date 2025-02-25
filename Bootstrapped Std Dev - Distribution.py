@@ -6,7 +6,10 @@ import matplotlib.pyplot as plt
 import yfinance as yf
 
 ticker = "AAPL" # Replace with your desired stock ticker
-df = yf.download(ticker, start="2015-02-01", end="2025-02-01") # Replace start/end dates with your desired start/end dates
+start_date = "2015-02-01" # Replace with your desired start date
+end_date = "2025-02-01"  # Replace with your desired end date
+
+df = yf.download(ticker, start=start_date, end=end_date)
 df["Arithmetic Returns"] = df["Close"].pct_change()
 returns = df["Arithmetic Returns"].dropna()
 

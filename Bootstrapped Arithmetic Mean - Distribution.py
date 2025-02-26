@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Fri Feb 21 09:05:02 2025
-
-@author: alex
+Bootstrapped Arithmetic Means with Graph of Distribution and Confidence Intervals
 """
 import numpy as np
 import matplotlib.pyplot as plt

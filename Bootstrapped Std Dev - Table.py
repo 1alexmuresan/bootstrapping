@@ -17,8 +17,8 @@ for ticker in tickers:
     df["Arithmetic Returns"] = df["Close"].pct_change()
     returns = df["Arithmetic Returns"].dropna()
 
-    # Compute Historical Annualized Arithmetic Mean
-    annualized_sd = np.std(returns) * np.sqrt(252)
+    # Compute Historical Standard Deviation
+    annualized_std_dev = np.std(returns) * np.sqrt(252)
 
     # Bootstrapping Parameters
     sample_size = 252  # Replace with your desired sample size (in days). 1 year of trading is approx. 252 days
@@ -31,7 +31,7 @@ for ticker in tickers:
         annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252)  # Annualizing each standard deviation
         bootstrap_sds.append(annualized_sd)
     mean_bootstrap_sd = np.mean(bootstrap_sds)  
-    results[ticker] = [mean_bootstrap_sd]
+    results[ticker] = [annualized_std_dev, mean_bootstrap_sd]
 
 stats_df = pd.DataFrame(results, index=["Historical Std Dev", "Bootstrapped Std Dev"]
 # Create Table

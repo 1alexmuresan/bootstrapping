@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import yfinance as yf
 import pandas as pd
 
-tickers = ["DUOL", "DVN", "AAPL", "MSFT", "IEF", "LQD"] # Replace with your desired stock tickers
-start_date = "2024-02-01" # Replace with your desired start date
-end_date = "2025-02-01" # Replace with your desired end date
+tickers = ["COP", "DVN", "AAPL", "MSFT", "IEF", "LQD"]  # Replace with your desired stock tickers
+start_date = "2015-02-01" # Replace with your desired start date
+end_date = "2025-02-01"  # Replace with your desired end date
 
 results = {}
 

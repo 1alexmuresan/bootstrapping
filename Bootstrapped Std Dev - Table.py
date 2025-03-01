@@ -34,7 +34,7 @@ for ticker in tickers:
     mean_bootstrap_sd = np.mean(bootstrap_sds)  
     results[ticker] = [annualized_std_dev, mean_bootstrap_sd]
 
-stats_df = pd.DataFrame.from_dict(results, orient="index", columns=["Historical Std Dev", "Bootstrapped Std Dev"])
+stats_df = pd.DataFrame(results, index=["Historical Std Dev", "Bootstrapped Std Dev"]).T
 
 # Create Table
 fig, ax = plt.subplots(figsize=(8, 4))

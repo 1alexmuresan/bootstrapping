@@ -1,5 +1,5 @@
 """
-Bootstrapped Geometric Means with Graph of Distribution and Confidence Intervals
+Bootstrapped Arithmetic Means with Graph of Distribution and Confidence Intervals
 """
 import numpy as np
 import matplotlib.pyplot as plt

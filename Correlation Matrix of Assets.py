@@ -7,7 +7,7 @@ import seaborn as sns
 import yfinance as yf
 import pandas as pd
 
-tickers = ["COP", "DVN", "AAPL", "MSFT", "IEF", "LQD"] # Replace with your desired stock ticker
+tickers = ["COP", "DVN", "AAPL", "MSFT", "IEF", "LQD"] # Replace with your desired stock tickers
 start_date = "2015-02-01" # Replace with your desired start date
 end_date = "2025-02-01" # Replace with your desired end date
 

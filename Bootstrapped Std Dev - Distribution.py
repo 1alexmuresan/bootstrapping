@@ -24,17 +24,22 @@ bootstrap_sds = []
 # Bootstrapping Process
 for _ in range(n_bootstrap):
     bootstrap_sample = np.random.choice(returns, size=sample_size, replace=True)
-    annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252)  # Annualizing each standard deviation
+    annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252) # Annualizing each standard deviation
     bootstrap_sds.append(annualized_sd)
-mean_bootstrap_sd = np.mean(bootstrap_sds)  
+
+# Bias Correction
+mean_bootstrap_sd = np.mean(bootstrap_sds)
+bias = mean_bootstrap_sd - annualized_std_dev 
+corrected_bootstrap_sds = [sd - bias for sd in bootstrap_sds] 
+corrected_mean_bootstrap_sd = np.mean(corrected_bootstrap_sds) 
 
 # Plot Histogram of Annualized Bootstrapped Standard Deviations
 plt.figure(figsize=(10, 6))
 plt.hist(bootstrap_sds, bins=50, density=True, alpha=0.6, color="blue", label="Bootstrap Annualized Std Dev Distribution")
 
 # Compute Confidence Intervals
-lower_bound = np.percentile(bootstrap_sds, 2.5)
-upper_bound = np.percentile(bootstrap_sds, 97.5)
+lower_bound = np.percentile(corrected_bootstrap_sds, 2.5)
+upper_bound = np.percentile(corrected_bootstrap_sds, 97.5)
 plt.axvline(lower_bound, color="red", linestyle="--", label="2.5% CI")
 plt.axvline(upper_bound, color="red", linestyle="--", label="97.5% CI")
 
@@ -47,8 +52,5 @@ plt.grid()
 
 plt.show()
 print(f"Historical Standard Deviation: {annualized_std_dev:.4f}")
-print(f"Bootstrapped Mean Annualized Standard Deviation: {mean_bootstrap_sd:.4f}")
+print(f"Bootstrapped Mean Annualized Standard Deviation: {corrected_mean_bootstrap_sd:.4f}")
 print(f"95% Confidence Interval: ({lower_bound:.4f}, {upper_bound:.4f})")
-
-
-

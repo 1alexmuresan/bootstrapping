@@ -35,7 +35,7 @@ corrected_mean_bootstrap_sd = np.mean(corrected_bootstrap_sds)
 
 # Plot Histogram of Annualized Bootstrapped Standard Deviations
 plt.figure(figsize=(10, 6))
-plt.hist(bootstrap_sds, bins=50, density=True, alpha=0.6, color="blue", label="Bootstrap Annualized Std Dev Distribution")
+plt.hist(bootstrap_sds, bins=50, density=True, alpha=0.6, color="purple", label="Bootstrap Annualized Std Dev Distribution")
 
 # Compute Confidence Intervals
 lower_bound = np.percentile(corrected_bootstrap_sds, 2.5)

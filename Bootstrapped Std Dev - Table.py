@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import yfinance as yf
 import pandas as pd
 
-tickers = ["COP", "DVN", "AAPL", "MSFT", "IEF", "LQD"]  # Stock tickers
-start_date = "2015-02-01"
-end_date = "2025-02-01"
+tickers = ["COP", "DVN", "AAPL", "MSFT", "IEF", "LQD"]  # Replace with your desired stock tickers
+start_date = "2015-02-01" # Replace with your desired start date
+end_date = "2025-02-01"  # Replace with your desired end date
 
 results = {}
 
@@ -17,7 +17,7 @@ for ticker in tickers:
     df["Arithmetic Returns"] = df["Close"].pct_change()
     returns = df["Arithmetic Returns"].dropna()
 
-    # Compute Historical Standard Deviation
+    # Compute Historical Annualized Std Dev
     annualized_std_dev = np.std(returns) * np.sqrt(252)
 
     # Bootstrapping Parameters

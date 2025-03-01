@@ -13,6 +13,9 @@ df = yf.download(ticker, start=start_date, end=end_date)
 df["Arithmetic Returns"] = df["Close"].pct_change()
 returns = df["Arithmetic Returns"].dropna()
 
+# Compute Historical Annualized Std Dev
+annualized_std_dev = np.std(returns) * np.sqrt(252)
+
 # Bootstrapping Parameters
 sample_size = 252  # Replace with your desired sample size (in days). 1 year of trading is approx. 252 days
 n_bootstrap = 5000  # Number of bootstrap samples
@@ -43,6 +46,7 @@ plt.legend()
 plt.grid()
 
 plt.show()
+print(f"Historical Standard Deviation: {annualized_std_dev:.4f}")
 print(f"Bootstrapped Mean Annualized Standard Deviation: {mean_bootstrap_sd:.4f}")
 print(f"95% Confidence Interval: ({lower_bound:.4f}, {upper_bound:.4f})")
 

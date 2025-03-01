@@ -1,14 +1,14 @@
 """
-Bootstrapped Stanadard Deviations with Table
+Bootstrapped Standard Deviations with Table
 """
 import numpy as np
 import matplotlib.pyplot as plt
 import yfinance as yf
 import pandas as pd
 
-tickers = ["COP", "DVN", "AAPL", "MSFT", "IEF", "LQD"] # Replace with your desired stock tickers
-start_date = "2015-02-01" # Replace with your desired start date
-end_date = "2025-02-01" # Replace with your desired end date
+tickers = ["COP", "DVN", "AAPL", "MSFT", "IEF", "LQD"]  # Stock tickers
+start_date = "2015-02-01"
+end_date = "2025-02-01"
 
 results = {}
 
@@ -21,8 +21,8 @@ for ticker in tickers:
     annualized_std_dev = np.std(returns) * np.sqrt(252)
 
     # Bootstrapping Parameters
-    sample_size = 252  # Replace with your desired sample size (in days). 1 year of trading is approx. 252 days
-    n_bootstrap = 5000 # Number of bootstrap samples
+    sample_size = 252  # 1 year of trading days
+    n_bootstrap = 5000  # Number of bootstrap samples
     bootstrap_sds = []
 
     # Bootstrapping Process
@@ -30,10 +30,11 @@ for ticker in tickers:
         bootstrap_sample = np.random.choice(returns, size=sample_size, replace=True)
         annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252)  # Annualizing each standard deviation
         bootstrap_sds.append(annualized_sd)
+
     mean_bootstrap_sd = np.mean(bootstrap_sds)  
     results[ticker] = [annualized_std_dev, mean_bootstrap_sd]
 
-stats_df = pd.DataFrame(results, index=["Historical Std Dev", "Bootstrapped Std Dev"])
+stats_df = pd.DataFrame.from_dict(results, orient="index", columns=["Historical Std Dev", "Bootstrapped Std Dev"])
 
 # Create Table
 fig, ax = plt.subplots(figsize=(8, 4))

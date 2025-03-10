@@ -36,9 +36,10 @@ for ticker in tickers:
         annualized_geom_mean_log = np.mean(bootstrap_sample) * 252 # Annualize log return
         annualized_geom_mean = np.exp(annualized_geom_mean_log) - 1 #Convert back to normal return
         bootstrap_means.append(annualized_geom_mean)
+    mean_bootstrap_geomean = np.mean(bootstrap_means)
 
     # Bias Correction
-    bias = np.mean(bootstrap_means) - annualized_geometric_mean
+    bias = mean_bootstrap_geomean - annualized_geometric_mean
     corrected_bootstrap_means = [x - bias for x in bootstrap_means]
     corrected_mean_bootstrap_geommean = np.mean(corrected_bootstrap_means)
     

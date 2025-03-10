@@ -26,9 +26,9 @@ for _ in range(n_bootstrap):
     bootstrap_sample = np.random.choice(returns, size=sample_size, replace=True)
     annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252) # Annualizing each standard deviation
     bootstrap_sds.append(annualized_sd)
+mean_bootstrap_sd = np.mean(bootstrap_sds)
 
 # Bias Correction
-mean_bootstrap_sd = np.mean(bootstrap_sds)
 bias = mean_bootstrap_sd - annualized_std_dev 
 corrected_bootstrap_sds = [sd - bias for sd in bootstrap_sds] 
 corrected_mean_bootstrap_sd = np.mean(corrected_bootstrap_sds) 

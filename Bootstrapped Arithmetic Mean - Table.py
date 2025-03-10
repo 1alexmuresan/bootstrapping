@@ -33,7 +33,6 @@ for ticker in tickers:
     mean_bootstrap_arithmean = np.mean(bootstrap_means)
     
     # Bias Correction
-
     bias = mean_bootstrap_arithmean - annualized_arithmetic_mean
     corrected_bootstrap_means = [x - bias for x in bootstrap_means]
     corrected_mean_bootstrap_arithmean = np.mean(corrected_bootstrap_means)

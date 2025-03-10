@@ -32,12 +32,12 @@ for _ in range(n_bootstrap):
     annualized_geom_mean_log = np.mean(bootstrap_sample) * 252 # Annualize log return
     annualized_geom_mean = np.exp(annualized_geom_mean_log) - 1 #Convert back to normal return
     bootstrap_means.append(annualized_geom_mean)
+mean_bootstrap_geomean = np.mean(bootstrap_means) 
 
 # Bias Correction
-bias = np.mean(bootstrap_means) - annualized_geometric_mean
+bias = mean_bootstrap_geomean - annualized_geometric_mean
 corrected_bootstrap_means = [x - bias for x in bootstrap_means]
 corrected_mean_bootstrap_geommean = np.mean(corrected_bootstrap_means)
-
 
 # Plot Histogram of Annualized Bootstrapped Geometric Means
 plt.figure(figsize=(10, 6))
@@ -62,11 +62,3 @@ plt.show()
 print(f"Historical Geometric Mean (Daily): {annualized_geometric_mean:.4f}")
 print(f"Bootstrapped Mean Annualized Geometric Return: {corrected_mean_bootstrap_geommean:.4f}")
 print(f"95% Confidence Interval: ({lower_bound:.4f}, {upper_bound:.4f})")
-
-
-
-
-
-
-
-

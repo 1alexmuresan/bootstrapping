@@ -31,7 +31,14 @@ for ticker in tickers:
         annualized_arithmeans = np.mean(bootstrap_sample) * 252 # Annualizing each mean
         bootstrap_means.append(annualized_arithmeans)
     mean_bootstrap_arithmean = np.mean(bootstrap_means)
-    results[ticker] = [annualized_arithmetic_mean, mean_bootstrap_arithmean]
+    
+    # Bias Correction
+
+    bias = mean_bootstrap_arithmean - annualized_arithmetic_mean
+    corrected_bootstrap_means = [x - bias for x in bootstrap_means]
+    corrected_mean_bootstrap_arithmean = np.mean(corrected_bootstrap_means)
+    
+    results[ticker] = [annualized_arithmetic_mean, corrected_mean_bootstrap_arithmean]
 
 stats_df = pd.DataFrame(results, index=["Historical Arithmetic Mean", "Bootstrapped Arithmetic Mean"]).T
 

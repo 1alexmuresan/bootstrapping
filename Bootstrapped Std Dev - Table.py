@@ -30,9 +30,14 @@ for ticker in tickers:
         bootstrap_sample = np.random.choice(returns, size=sample_size, replace=True)
         annualized_sd = np.std(bootstrap_sample, ddof=1) * np.sqrt(252)  # Annualizing each standard deviation
         bootstrap_sds.append(annualized_sd)
-
     mean_bootstrap_sd = np.mean(bootstrap_sds)  
-    results[ticker] = [annualized_std_dev, mean_bootstrap_sd]
+    
+    # Bias Correction
+    bias = mean_bootstrap_sd - annualized_std_dev
+    corrected_bootstrap_sds = [x - bias for x in bootstrap_sds]
+    corrected_mean_bootstrap_sd = np.mean(corrected_bootstrap_sds)
+    
+    results[ticker] = [annualized_std_dev, corrected_mean_bootstrap_sd]
 
 stats_df = pd.DataFrame(results, index=["Historical Std Dev", "Bootstrapped Std Dev"]).T
 
@@ -49,6 +54,9 @@ table.set_fontsize(10)
 table.scale(1.2, 1.2)
 plt.title("Bootstrapped Annualized Standard Deviations")
 plt.tight_layout()
+
+plt.show()
+print(stats_df.round(6))
 
 plt.show()
 print(stats_df.round(6))
